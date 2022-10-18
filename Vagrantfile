@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
    gitlabserver.vm.box = "generic/ubuntu2004"
    gitlabserver.vm.hostname = "gitlab-server"
    config.vm.provider "virtualbox" do |v|
-    v.memory = 4096
+    v.memory = 8192
     v.cpus = 2
    end
    gitlabserver.vm.network :private_network, ip: "192.168.205.110"
