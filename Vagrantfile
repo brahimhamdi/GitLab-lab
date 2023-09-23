@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
     v.memory = 8192
     v.cpus = 2
    end
-   gitlabserver.vm.network :private_network, ip: "192.168.205.110"
+   gitlabserver.vm.network :private_network, ip: "192.168.56.110"
 
    config.vm.provision "file", source: "gitlab-folder", destination: "/tmp/gitlab-folder"
    
@@ -29,9 +29,9 @@ Vagrant.configure(2) do |config|
  config.vm.define "gitlab-runner" do |gitlabrunner|
    gitlabrunner.vm.box = "generic/ubuntu2004"
    gitlabrunner.vm.hostname = "gitlab-runner"
-   gitlabrunner.vm.network :private_network, ip: "192.168.205.111"
+   gitlabrunner.vm.network :private_network, ip: "192.168.56.111"
    config.vm.provider "virtualbox" do |v|
-    v.memory = 4096
+    v.memory = 2048
     v.cpus = 1
    end
 
