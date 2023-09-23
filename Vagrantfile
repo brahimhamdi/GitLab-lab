@@ -1,6 +1,8 @@
 #Vagitlabrunnerant.require_version ">= 2.0.0"
 Vagrant.configure(2) do |config|
 
+ config.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
+
  config.vm.define "gitlab-server" do |gitlabserver|
    gitlabserver.vm.box = "generic/ubuntu2004"
    gitlabserver.vm.hostname = "gitlab-server"
