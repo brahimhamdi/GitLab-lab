@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
      sudo cp /tmp/gitlab-folder/hosts  /etc/hosts
      sudo cp /tmp/gitlab-folder/gitlab.rb  /etc/gitlab/gitlab.rb
      sudo gitlab-ctl reconfigure
-     sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris/OU=Formation/CN=gitlab.orsys.fr" -addext "subjectAltName = DNS:localhost,DNS:gitlab.orsys.fr" 
+     sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris/OU=Formation/CN=gitlab.orsys.fr" -addext "subjectAltName=IP:192.168.205.110" 
      sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
    SHELL
  end
@@ -58,8 +58,8 @@ Vagrant.configure(2) do |config|
      sudo systemctl daemon-reload
      sudo systemctl restart docker.service
      sudo mkdir /etc/gitlab-runner/certs/
-     sudo bash -c "openssl s_client -showcerts -connect 192.168.205.110:443 < /dev/null 2>/dev/null | openssl x509 -outform PEM > /etc/gitlab-runner/certs/gitlab.orsys.fr.crt"
-     sudo bash -c "echo | openssl s_client -CAfile /etc/gitlab-runner/certs/gitlab.orsys.fr.crt -connect 192.168.205.110:443"
+     sudo bash -c "openssl s_client -showcerts -connect gitlab.orsys.fr:443 < /dev/null 2>/dev/null | openssl x509 -outform PEM > /etc/gitlab-runner/certs/gitlab.orsys.fr.crt"
+     sudo bash -c "echo | openssl s_client -CAfile /etc/gitlab-runner/certs/gitlab.orsys.fr.crt -connect gitlab.orsys.fr:443"
 
    SHELL
  end
