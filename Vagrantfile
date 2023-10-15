@@ -10,28 +10,28 @@ Vagrant.configure(2) do |config|
     v.memory = 8192
     v.cpus = 2
    end
-   gitlabserver.vm.network :private_network, ip: "192.168.56.110"
+   gitlabserver.vm.network :private_network, ip: "192.168.205.110"
 
    config.vm.provision "file", source: "gitlab-folder", destination: "/tmp/gitlab-folder"
    
    gitlabserver.vm.provision "shell", inline: <<-SHELL
-     apt update
-     apt-get install -y curl openssh-server ca-certificates tzdata perl
+     sudo apt update
+     sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
      curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
      sudo EXTERNAL_URL="https://gitlab.orsys.fr" apt-get install gitlab-ce
      sudo cp /tmp/gitlab-folder/openssl.cnf /etc/ssl/openssl.cnf
      sudo cp /tmp/gitlab-folder/hosts  /etc/hosts
      sudo cp /tmp/gitlab-folder/gitlab.rb  /etc/gitlab/gitlab.rb
      sudo gitlab-ctl restart
-     sudo openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt
-     sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 4096
+     sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt
+     sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
    SHELL
  end
 
  config.vm.define "gitlab-runner" do |gitlabrunner|
    gitlabrunner.vm.box = "generic/ubuntu2004"
    gitlabrunner.vm.hostname = "gitlab-runner"
-   gitlabrunner.vm.network :private_network, ip: "192.168.56.111"
+   gitlabrunner.vm.network :private_network, ip: "192.168.205.111"
    config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.cpus = 1
