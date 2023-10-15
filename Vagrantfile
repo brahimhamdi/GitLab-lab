@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
      sudo gitlab-ctl reconfigure
      sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt
      sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
-#     sudo gitlab-ctl reconfigure
+     sudo gitlab-ctl reconfigure
    SHELL
  end
 
