@@ -1,4 +1,3 @@
-#Vagitlabrunnerant.require_version ">= 2.0.0"
 Vagrant.configure(2) do |config|
 
  config.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
@@ -6,15 +5,17 @@ Vagrant.configure(2) do |config|
  config.vm.define "gitlab-server" do |gitlabserver|
    gitlabserver.vm.box = "generic/ubuntu2004"
    gitlabserver.vm.hostname = "gitlab-server"
-   config.vm.provider "virtualbox" do |v|
-    v.memory = 8192
-    v.cpus = 2
+   gitlabserver.vm.provider "virtualbox" do |v|
+     v.memory = "8192"
+     v.cpus = "2"
    end
    gitlabserver.vm.network :private_network, ip: "192.168.205.110"
 
    config.vm.provision "file", source: "gitlab-folder", destination: "/tmp/gitlab-folder"
    
    gitlabserver.vm.provision "shell", inline: <<-SHELL
+     sudo swapoff -a
+     sudo sed -i '/ swap / s/^/#/' /etc/fstab
      sudo apt update
      sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
      curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
@@ -33,9 +34,9 @@ Vagrant.configure(2) do |config|
    gitlabrunner.vm.box = "generic/ubuntu2004"
    gitlabrunner.vm.hostname = "gitlab-runner"
    gitlabrunner.vm.network :private_network, ip: "192.168.205.111"
-   config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
-    v.cpus = 1
+   gitlabrunner.vm.provider "virtualbox" do |v|
+     v.memory = "2048"
+     v.cpus = "1"
    end
 
    config.vm.provision "file", source: "gitlab-folder", destination: "/tmp/gitlab-folder"
