@@ -24,9 +24,8 @@ Vagrant.configure(2) do |config|
      sudo cp /tmp/gitlab-folder/hosts  /etc/hosts
      sudo cp /tmp/gitlab-folder/gitlab.rb  /etc/gitlab/gitlab.rb
      sudo gitlab-ctl reconfigure
-     sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt
+     sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris/OU=Formation/CN=gitlab.orsys.fr" -addext "subjectAltName = DNS:localhost,DNS:gitlab.orsys.fr" 
      sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
-     sudo gitlab-ctl reconfigure
    SHELL
  end
 
@@ -51,6 +50,7 @@ Vagrant.configure(2) do |config|
      sudo usermod -aG docker ${USER}
      curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
      sudo apt -y install gitlab-runner
+     sudo cp /tmp/gitlab-folder/hosts  /etc/hosts
      sudo cp /tmp/gitlab-folder/docker /etc/default/docker
      sudo cp /tmp/gitlab-folder/daemon.json /etc/docker/daemon.json
      sudo mkdir /etc/systemd/system/docker.service.d
