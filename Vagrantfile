@@ -19,13 +19,17 @@ Vagrant.configure(2) do |config|
      sudo apt update
      sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
      curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
-     sudo EXTERNAL_URL="https://gitlab.orsys.fr" apt-get install gitlab-ce
-     sudo cp /tmp/gitlab-folder/openssl.cnf /etc/ssl/openssl.cnf
+#     sudo EXTERNAL_URL="https://gitlab.orsys.fr" apt-get install gitlab-ce
+     sudo EXTERNAL_URL="http://gitlab.orsys.fr" apt-get install gitlab-ce
+#     sudo cp /tmp/gitlab-folder/openssl.cnf /etc/ssl/openssl.cnf
+#     sudo cp /tmp/gitlab-folder/openssl.cnf /opt/gitlab/embedded/ssl/openssl.cnf
      sudo cp /tmp/gitlab-folder/hosts  /etc/hosts
      sudo cp /tmp/gitlab-folder/gitlab.rb  /etc/gitlab/gitlab.rb
      sudo gitlab-ctl reconfigure
-     sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris/OU=Formation/CN=gitlab.orsys.fr" -addext "subjectAltName=IP:192.168.205.110" 
-     sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
+#      sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris/OU=Formation/CN=gitlab.orsys.fr" -addext "subjectAltName=IP:192.168.205.110" 
+#     sudo openssl req -nodes -x509 -sha256 -newkey rsa:2048 -keyout /etc/gitlab/ssl/gitlab.orsys.fr.key -out /etc/gitlab/ssl/gitlab.orsys.fr.crt -days 3560 -subj "/C=FR/ST=IDF/L=Paris"
+#     sudo openssl dhparam -out /etc/gitlab/ssl/dhparam.pem 2048
+#     sudo gitlab-ctl restart
    SHELL
  end
 
@@ -57,9 +61,9 @@ Vagrant.configure(2) do |config|
      sudo cp /tmp/gitlab-folder/override.conf /etc/systemd/system/docker.service.d/override.conf
      sudo systemctl daemon-reload
      sudo systemctl restart docker.service
-     sudo mkdir /etc/gitlab-runner/certs/
-     sudo bash -c "openssl s_client -showcerts -connect gitlab.orsys.fr:443 < /dev/null 2>/dev/null | openssl x509 -outform PEM > /etc/gitlab-runner/certs/gitlab.orsys.fr.crt"
-     sudo bash -c "echo | openssl s_client -CAfile /etc/gitlab-runner/certs/gitlab.orsys.fr.crt -connect gitlab.orsys.fr:443"
+#     sudo mkdir /etc/gitlab-runner/certs/
+#     sudo bash -c "openssl s_client -showcerts -connect gitlab.orsys.fr:443 < /dev/null 2>/dev/null | openssl x509 -outform PEM > /etc/gitlab-runner/certs/gitlab.orsys.fr.crt"
+#    sudo bash -c "echo | openssl s_client -CAfile /etc/gitlab-runner/certs/gitlab.orsys.fr.crt -connect gitlab.orsys.fr:443"
 
    SHELL
  end
